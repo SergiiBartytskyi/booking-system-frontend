@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import { Form, Formik } from "formik";
 import { registerUser, Role } from "../lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import InputField from "./input-field";
+import InputField from "./inputField";
 import Button from "./button";
+import { useRouter } from "next/navigation";
 
 export type RegistrationFieldValues = {
   email: string;
@@ -27,13 +28,15 @@ export interface RegistrationFormProps {
 
 const RegistrationForm = ({ onSubmit }: RegistrationFormProps) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { mutate, isPending } = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["users"],
+        queryKey: ["user"],
       });
+      router.replace("/profile");
     },
   });
 
