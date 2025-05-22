@@ -5,7 +5,7 @@ import Image from "next/image";
 import SidebarItem from "./sidebarItem";
 import { usePathname, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { logoutApi } from "../lib/api";
+import { logout } from "../lib/api";
 import getQueryClient from "../lib/utils/getQueryClient";
 
 export interface SidebarProps {}
@@ -17,9 +17,8 @@ export default function Sidebar({}: SidebarProps) {
   const queryClient = getQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: logoutApi,
+    mutationFn: logout,
     onSuccess: () => {
-      localStorage.removeItem("accessToken");
       queryClient.clear();
     },
   });

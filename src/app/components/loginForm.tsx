@@ -26,13 +26,10 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     mutationFn: loginUser,
-    onSuccess: (response) => {
-      localStorage.setItem("accessToken", response.data.accessToken);
-      queryClient.invalidateQueries({
-        queryKey: ["user"],
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       router.replace("/profile");
     },
   });
@@ -45,7 +42,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form>
-        <p>Registration</p>
+        <p>Login user</p>
         <div className="flex gap-6">
           <InputField
             required
@@ -64,6 +61,9 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
             id="password"
           />
         </div>
+
+        {error && <p className="text-red-500">{(error as Error).message}</p>}
+
         <Button type="submit" disabled={isPending}>
           Log in
         </Button>

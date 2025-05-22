@@ -1,4 +1,4 @@
-import UserCard from "@/app/components/userCard";
+import UserCard from "@/app/components/companyCard";
 import { IBusinessUser } from "@/app/lib/api";
 import getQueryClient from "@/app/lib/utils/getQueryClient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -14,11 +14,11 @@ const Page = async ({ params }: PageProps) => {
 
   const queryClient = getQueryClient();
 
-  // await queryClient.prefetchQuery({
-  //   queryKey: ["companies", id],
-  //   queryFn: () => getUserById(id, { cache: "no-store" }),
-  //   staleTime: 10 * 1000,
-  // });
+  await queryClient.prefetchQuery({
+    queryKey: ["companies", id],
+    queryFn: () => getUserById(id, { cache: "no-store" }),
+    staleTime: 10 * 1000,
+  });
 
   const company = queryClient.getQueryData(["companies", id]) as IBusinessUser;
   if (!company) {

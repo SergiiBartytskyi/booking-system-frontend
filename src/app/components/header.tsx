@@ -8,9 +8,7 @@ import { useCurrentUser } from "../lib/queries/useCurrentUser";
 export interface HeaderProps {}
 
 const Header = ({}: HeaderProps) => {
-  const { data } = useCurrentUser();
-  console.log("data :>> ", data);
-
+  const { data: user } = useCurrentUser();
   return (
     <header className="flex items-center gap-5 py-6	px-10 border-b border-gray-300 h-20">
       <h1 className="flex-1 text-3xl font-semibold text-gray-900">
@@ -20,8 +18,10 @@ const Header = ({}: HeaderProps) => {
       <div className="flex gap-3">
         <User size={44} />
         <div>
-          {/* <p className="text-base	font-semibold text-gray-900">{user?.name}</p>
-          <p className="text-sm	font-light text-gray-900">{user?.email}</p> */}
+          <p className="text-base	font-semibold text-gray-900">
+            {user?.data.name}
+          </p>
+          <p className="text-sm	font-light text-gray-900">{user?.data.email}</p>
         </div>
       </div>
     </header>
