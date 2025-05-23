@@ -2,39 +2,41 @@
 
 import React from "react";
 import { Form, Formik } from "formik";
-import { loginUser } from "../lib/api";
+import { addAppointment, loginUser, Status } from "../lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import InputField from "./inputField";
 import Button from "./button";
 import { useRouter } from "next/navigation";
 
-export type LoginFieldValues = {
-  email: string;
-  password: string;
+export type AppointmentFieldValues = {
+  id: string;
+  date: Date;
+  status: Status;
 };
 
-const initialValues: LoginFieldValues = {
-  email: "",
-  password: "",
+const initialValues: AppointmentFieldValues = {
+  id: "",
+  date: new Date(),
+  status: Status.SCHEDULED,
 };
 
-export interface LoginFormProps {
-  onSubmit?: (values: LoginFieldValues) => void | Promise<void>;
+export interface AppointmentFormProps {
+  onSubmit?: (values: AppointmentFieldValues) => void | Promise<void>;
 }
 
-const LoginForm = ({ onSubmit }: LoginFormProps) => {
+const AppointmentForm = ({ onSubmit }: AppointmentFormProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const { mutate, isPending, error } = useMutation({
-    mutationFn: loginUser,
+    mutationFn: addAppointment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       router.replace("/profile");
     },
   });
 
-  const handleSubmit = async (values: LoginFieldValues) => {
+  const handleSubmit = async (values: AppointmentFieldValues) => {
     mutate({
       ...values,
     });
@@ -72,4 +74,4 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
   );
 };
 
-export default LoginForm;
+export default AppointmentForm;

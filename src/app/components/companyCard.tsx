@@ -13,7 +13,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
   const router = useRouter();
 
   const handleViewClick = () => {
-    router.push(`/companies/${company.id}`);
+    router.push(`/companies/${company._id}`);
   };
 
   return (

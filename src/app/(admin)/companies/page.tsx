@@ -13,15 +13,14 @@ const Page = async ({}: PageProps) => {
   await queryClient.prefetchQuery({
     queryKey: ["companies"],
     queryFn: getBusinessUsers,
-    staleTime: 10 * 1000,
   });
 
-  const companies = queryClient.getQueryData(["companies"]) as IBusinessUser[];
-  console.log("companies :>> ", companies);
-  if (!companies || companies.length === 0) {
-    // notFound();
-    return <p>No companies found</p>;
-  }
+  // const companies = queryClient.getQueryData(["companies"]) as IBusinessUser[];
+  // console.log("companies :>> ", companies);
+  // if (!companies || companies.length === 0) {
+  //   // notFound();
+  //   return <p>No companies found</p>;
+  // }
 
   const dehydratedState = dehydrate(queryClient);
 

@@ -8,7 +8,7 @@ export const api = axios.create({
 });
 
 export interface IBusinessUser {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   role: Role.BUSINESS;
@@ -39,7 +39,17 @@ export const refreshUser = async () => {
 
 export const logout = async () => await api.post("/auth/logout");
 
-export const getBusinessUsers = async (): Promise<IBusinessUser[]> => {
+export const getBusinessUsers = async () => {
   const res = await api.get("/users/business");
+  return res.data.data;
+};
+
+export const getBusinessUser = async (id: string) => {
+  const res = await api.get(`/users/business/:${id}`);
+  return res.data.data;
+};
+
+export const addAppointment = async (id: string) => {
+  const res = await api.post(`/appointments/:${id}`);
   return res.data.data;
 };
