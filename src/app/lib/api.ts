@@ -45,11 +45,17 @@ export const getBusinessUsers = async () => {
 };
 
 export const getBusinessUser = async (id: string) => {
-  const res = await api.get(`/users/business/:${id}`);
+  const res = await api.get(`/users/business/${id}`);
   return res.data.data;
 };
 
-export const addAppointment = async (id: string) => {
-  const res = await api.post(`/appointments/:${id}`);
+export const addAppointment = async ({
+  businessId,
+  dateTime,
+}: {
+  businessId: string;
+  dateTime: string;
+}) => {
+  const res = await api.post(`/appointments/${businessId}`, { dateTime });
   return res.data.data;
 };

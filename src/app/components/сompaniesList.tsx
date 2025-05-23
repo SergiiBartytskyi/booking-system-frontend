@@ -1,8 +1,7 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { getBusinessUsers, IBusinessUser } from "@/app/lib/api";
-import CompanyCard from "./companyCard";
+import { IBusinessUser } from "@/app/lib/api";
+import CompanyItem from "./companyItem";
 import { useBusinessUsers } from "../lib/queries/useBusinessUsers";
 
 const CompaniesList = () => {
@@ -19,7 +18,7 @@ const CompaniesList = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {companies.map((company: IBusinessUser) => (
-        <CompanyCard key={company._id} company={company} />
+        <CompanyItem key={company._id} company={company} />
       ))}
     </div>
   );

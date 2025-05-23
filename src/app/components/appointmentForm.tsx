@@ -2,72 +2,58 @@
 
 import React from "react";
 import { Form, Formik } from "formik";
-import { addAppointment, loginUser, Status } from "../lib/api";
+import { addAppointment, loginUser, Role, Status } from "../lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import InputField from "./inputField";
 import Button from "./button";
 import { useRouter } from "next/navigation";
 
 export type AppointmentFieldValues = {
-  id: string;
-  date: Date;
-  status: Status;
-};
-
-const initialValues: AppointmentFieldValues = {
-  id: "",
-  date: new Date(),
-  status: Status.SCHEDULED,
+  businessId?: string;
+  dateTime: string;
 };
 
 export interface AppointmentFormProps {
-  onSubmit?: (values: AppointmentFieldValues) => void | Promise<void>;
+  businessId: string;
 }
 
-const AppointmentForm = ({ onSubmit }: AppointmentFormProps) => {
+const AppointmentForm = ({ businessId }: AppointmentFormProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const { mutate, isPending, error } = useMutation({
-    mutationFn: addAppointment,
+    mutationFn: ({ dateTime }: AppointmentFieldValues) =>
+      addAppointment({ businessId, dateTime }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+      queryClient.invalidateQueries({ queryKey: ["appointments"] });
       router.replace("/profile");
     },
   });
 
-  const handleSubmit = async (values: AppointmentFieldValues) => {
-    mutate({
-      ...values,
-    });
+  const handleSubmit = (values: AppointmentFieldValues) => {
+    mutate({ ...values, businessId });
   };
+
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={{ dateTime: "" }}
+      onSubmit={(values) => mutate(values)}
+    >
       <Form>
-        <p>Login user</p>
-        <div className="flex gap-6">
+        <div className="flex gap-6 mb-5">
           <InputField
             required
-            placeholder="email@mail.com"
-            name="email"
-            label="Email"
-            type="email"
-            id="email"
-          />
-          <InputField
-            required
-            placeholder="password"
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
+            name="dateTime"
+            label="Choose a date and time to register"
+            type="datetime-local"
+            id="dateTime"
           />
         </div>
 
         {error && <p className="text-red-500">{(error as Error).message}</p>}
 
         <Button type="submit" disabled={isPending}>
-          Log in
+          Booking
         </Button>
       </Form>
     </Formik>

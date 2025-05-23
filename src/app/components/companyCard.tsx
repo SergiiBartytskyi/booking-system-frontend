@@ -1,28 +1,28 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React from "react";
-import Button from "./button";
-import { IBusinessUser } from "../lib/api";
+import { useQuery } from "@tanstack/react-query";
+import { getBusinessUser } from "@/app/lib/api";
 
-interface CompanyCardProps {
-  company: IBusinessUser;
-}
+const CompanyCard = ({ id }: { id: string }) => {
+  const {
+    data: company,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["companies", id],
+    queryFn: () => getBusinessUser(id),
+  });
 
-const CompanyCard = ({ company }: CompanyCardProps) => {
-  const router = useRouter();
-
-  const handleViewClick = () => {
-    router.push(`/companies/${company._id}`);
-  };
+  if (isLoading) return <p>Loading...</p>;
+  if (error || !company) return <p>Not found the company</p>;
 
   return (
-    <div className="p-4 border rounded shadow hover:shadow-md transition">
-      <h2 className="text-lg font-bold">{company.name}</h2>
-      <p className="text-sm text-gray-600">{company.email}</p>
-      <Button onClick={handleViewClick} className="mt-3">
-        Go to
-      </Button>
+    <div>
+      <h1 className="text-2xl font-bold mb-4">{company.name}</h1>
+      <p className="text-gray-600 mb-2">{company.email}</p>
+      <p className="text-gray-500">
+        Register: {new Date(company.createdAt).toLocaleDateString()}
+      </p>
     </div>
   );
 };
