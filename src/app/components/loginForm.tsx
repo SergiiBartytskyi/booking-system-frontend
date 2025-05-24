@@ -18,11 +18,7 @@ const initialValues: LoginFieldValues = {
   password: "",
 };
 
-export interface LoginFormProps {
-  onSubmit?: (values: LoginFieldValues) => void | Promise<void>;
-}
-
-const LoginForm = ({ onSubmit }: LoginFormProps) => {
+const LoginForm = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 

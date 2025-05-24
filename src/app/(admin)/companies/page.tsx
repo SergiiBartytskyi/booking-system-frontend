@@ -13,6 +13,7 @@ const Page = async ({}: PageProps) => {
   await queryClient.prefetchQuery({
     queryKey: ["companies"],
     queryFn: getBusinessUsers,
+    staleTime: 10 * 60 * 1000,
   });
 
   // const companies = queryClient.getQueryData(["companies"]) as IBusinessUser[];

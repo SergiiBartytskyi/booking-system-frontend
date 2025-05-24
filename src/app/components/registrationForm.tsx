@@ -22,11 +22,7 @@ const initialValues: RegistrationFieldValues = {
   role: Role.CLIENT,
 };
 
-export interface RegistrationFormProps {
-  onSubmit?: (values: RegistrationFieldValues) => void | Promise<void>;
-}
-
-const RegistrationForm = ({ onSubmit }: RegistrationFormProps) => {
+const RegistrationForm = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -34,7 +30,7 @@ const RegistrationForm = ({ onSubmit }: RegistrationFormProps) => {
     mutationFn: registerUser,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["user"],
+        queryKey: ["currentUser"],
       });
       router.replace("/profile");
     },

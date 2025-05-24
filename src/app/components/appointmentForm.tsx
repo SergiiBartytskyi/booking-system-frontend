@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Form, Formik } from "formik";
-import { addAppointment, loginUser, Role, Status } from "../lib/api";
+import { addAppointment } from "../lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import InputField from "./inputField";
 import Button from "./button";
@@ -35,10 +35,7 @@ const AppointmentForm = ({ businessId }: AppointmentFormProps) => {
   };
 
   return (
-    <Formik
-      initialValues={{ dateTime: "" }}
-      onSubmit={(values) => mutate(values)}
-    >
+    <Formik initialValues={{ dateTime: "" }} onSubmit={handleSubmit}>
       <Form>
         <div className="flex gap-6 mb-5">
           <InputField
