@@ -6,7 +6,6 @@ import AppointmentItem from "./appointmentItem";
 
 const AppointmentList = () => {
   const { data: appointments, isLoading, error } = useAppointments();
-
   if (isLoading) return <p>Loading...</p>;
 
   if (error) return <p>Error: {(error as Error).message}</p>;
@@ -16,7 +15,7 @@ const AppointmentList = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div className="flex items-center flex-wrap gap-4">
       {appointments.map((appointment: IAppointment) => (
         <AppointmentItem key={appointment._id} appointment={appointment} />
       ))}

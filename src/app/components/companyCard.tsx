@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getBusinessUser } from "@/app/lib/api";
-import AppointmentForm from "./appointmentForm";
+import AppointmentCreateForm from "./appointmentCreateForm";
 
 const CompanyCard = ({ id }: { id: string }) => {
   const {
@@ -12,6 +12,8 @@ const CompanyCard = ({ id }: { id: string }) => {
   } = useQuery({
     queryKey: ["companies", id],
     queryFn: () => getBusinessUser(id),
+    staleTime: 1 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -26,7 +28,7 @@ const CompanyCard = ({ id }: { id: string }) => {
       </p>
 
       <div className="mt-6">
-        <AppointmentForm businessId={id} businessName={company.name} />
+        <AppointmentCreateForm businessId={id} businessName={company.name} />
       </div>
     </div>
   );

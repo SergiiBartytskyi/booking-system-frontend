@@ -16,15 +16,15 @@ const Page = async ({ params }: PageProps) => {
   await queryClient.prefetchQuery({
     queryKey: ["appointments", id],
     queryFn: () => getAppointmentById(id),
+    staleTime: 1 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
   });
 
   const dehydratedState = dehydrate(queryClient);
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div className="max-w-xl mx-auto p-6 border rounded-lg shadow-md mt-6">
-        <AppointmentCard id={id} />
-      </div>
+      <AppointmentCard id={id} />
     </HydrationBoundary>
   );
 };

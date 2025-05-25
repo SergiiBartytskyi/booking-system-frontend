@@ -1,4 +1,4 @@
-import CompaniesList from "@/app/components/сompaniesList";
+import CompaniesList from "@/app/components/companiesList";
 import { getBusinessUsers } from "@/app/lib/api";
 import getQueryClient from "@/app/lib/utils/getQueryClient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -12,7 +12,8 @@ const Page = async ({}: PageProps) => {
   await queryClient.prefetchQuery({
     queryKey: ["companies"],
     queryFn: getBusinessUsers,
-    staleTime: 10 * 60 * 1000,
+    staleTime: 1 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
   });
 
   const dehydratedState = dehydrate(queryClient);

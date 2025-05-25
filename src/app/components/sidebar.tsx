@@ -4,17 +4,15 @@ import React from "react";
 import Image from "next/image";
 import SidebarItem from "./sidebarItem";
 import { usePathname, useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "../lib/api";
-import getQueryClient from "../lib/utils/getQueryClient";
 
 export interface SidebarProps {}
 
 export default function Sidebar({}: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
-
-  const queryClient = getQueryClient();
+  const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: logout,
@@ -22,6 +20,7 @@ export default function Sidebar({}: SidebarProps) {
       queryClient.clear();
     },
   });
+
   const handleExitClick = () => {
     mutate();
     router.push("/");
@@ -40,12 +39,12 @@ export default function Sidebar({}: SidebarProps) {
             Companies
           </SidebarItem>
           <SidebarItem
-            current={pathname === "/profile"}
-            pathname="/profile"
+            current={pathname === "/appointments"}
+            pathname="/appointments"
             src="/icons/squares.svg"
-            alt="profile icon"
+            alt="appointments icon"
           >
-            My profile
+            Appointments
           </SidebarItem>
         </ul>
         <button

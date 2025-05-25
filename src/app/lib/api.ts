@@ -86,8 +86,25 @@ export const addAppointment = async ({
   businessName: string;
   dateTime: string;
 }) => {
-  const res = await api.post(`/appointments/${businessId}`, {
+  const res = await api.post(`/appointments`, {
+    businessId,
     businessName,
+    dateTime,
+  });
+  return res.data.data;
+};
+
+export const editAppointment = async ({
+  appointmentId,
+  status,
+  dateTime,
+}: {
+  appointmentId: string;
+  status: Status;
+  dateTime: string;
+}) => {
+  const res = await api.patch(`/appointments/${appointmentId}`, {
+    status,
     dateTime,
   });
   return res.data.data;

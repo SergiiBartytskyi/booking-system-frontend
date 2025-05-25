@@ -16,6 +16,8 @@ const Page = async ({ params }: PageProps) => {
   await queryClient.prefetchQuery({
     queryKey: ["companies", id],
     queryFn: () => getBusinessUser(id),
+    staleTime: 1 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
   });
 
   const dehydratedState = dehydrate(queryClient);

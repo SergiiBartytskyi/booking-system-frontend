@@ -5,8 +5,11 @@ import {
   getAppointmentById,
   getBusinessUser,
   IAppointment,
+  Status,
 } from "@/app/lib/api";
-import AppointmentForm from "./appointmentForm";
+import AppointmentForm from "./appointmentCreateForm";
+import clsx from "clsx";
+import AppointmentEditForm from "./appointmentEditForm";
 
 interface AppointmentCardProps {
   id: string;
@@ -19,22 +22,36 @@ const AppointmentCard = ({ id }: AppointmentCardProps) => {
   } = useQuery({
     queryKey: ["appointments", id],
     queryFn: () => getAppointmentById(id),
+    staleTime: 1 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
   });
+
+  console.log("appointment :>> ", appointment);
 
   if (isLoading) return <p>Loading...</p>;
   if (error || !appointment) return <p>Not found the company</p>;
 
   return (
-    <div className="border p-6 rounded-2xl shadow-lg max-w-xl mx-auto">
+    <div className="p-6  ">
       <h2 className="text-xl font-bold mb-2">{appointment.businessName}</h2>
-      <p className="text-gray-600">Email: {appointment.email}</p>
       <p className="text-gray-500 mb-4">
-        Зареєстрована:{" "}
-        {new Date(appointment.companyCreatedAt).toLocaleDateString()}
+        Register: {new Date(appointment.createdAt).toLocaleDateString()}
       </p>
-      <p className="text-blue-700 font-medium mb-4">
-        Статус зустрічі: {status}
-      </p>
+      {/* <p className="font-medium mb-4">
+        Meeting status:{" "}
+        <span
+          className={clsx(
+            "font-bold",
+            appointment.status === Status.SCHEDULED && "text-blue-700",
+            appointment.status === Status.CANCELLED && "text-red-700",
+            appointment.status === Status.COMPLETED && "text-green-700"
+          )}
+        >
+          {appointment.status}
+        </span>
+      </p> */}
+
+      <AppointmentEditForm appointmentId={appointment._id} />
       <div className="flex gap-3">
         {/* <Button variant="destructive" onClick={onDelete}>
           Видалити

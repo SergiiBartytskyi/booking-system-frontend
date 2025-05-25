@@ -1,32 +1,27 @@
-import Profile from "@/app/components/profile";
-import { IUser, refreshUser } from "@/app/lib/api";
-import { useCurrentUser } from "@/app/lib/queries/useCurrentUser";
+import AppointmentList from "@/app/components/appointmentsList";
+import { getAppointments, refreshUser } from "@/app/lib/api";
 import getQueryClient from "@/app/lib/utils/getQueryClient";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import React from "react";
 
 interface PageProps {}
 
 const Page = async ({}: PageProps) => {
-  // const queryClient = getQueryClient();
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["currentUser"],
-    queryFn: refreshUser,
-    // staleTime: 10 * 60 * 1000,
+    queryKey: ["appointments"],
+    queryFn: getAppointments,
+    staleTime: 1 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
   });
 
   const dehydratedState = dehydrate(queryClient);
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div>My profile</div>
-      <Profile />
+      <h2 className="font-bold">My appointments</h2>
+      <AppointmentList />
     </HydrationBoundary>
   );
 };

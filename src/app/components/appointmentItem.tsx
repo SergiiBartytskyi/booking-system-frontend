@@ -13,7 +13,7 @@ const AppointmentItem = ({ appointment }: AppointmentItemProps) => {
   const router = useRouter();
 
   const handleViewClick = () => {
-    router.push(`/appiontments/${appointment._id}`);
+    router.push(`/appointments/${appointment._id}`);
   };
 
   return (
