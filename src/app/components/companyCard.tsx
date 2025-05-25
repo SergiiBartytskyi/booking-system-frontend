@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getBusinessUser } from "@/app/lib/api";
+import AppointmentForm from "./appointmentForm";
 
 const CompanyCard = ({ id }: { id: string }) => {
   const {
@@ -23,6 +24,10 @@ const CompanyCard = ({ id }: { id: string }) => {
       <p className="text-gray-500">
         Register: {new Date(company.createdAt).toLocaleDateString()}
       </p>
+
+      <div className="mt-6">
+        <AppointmentForm businessId={id} businessName={company.name} />
+      </div>
     </div>
   );
 };

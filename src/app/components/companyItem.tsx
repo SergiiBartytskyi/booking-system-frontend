@@ -5,11 +5,11 @@ import React from "react";
 import Button from "./button";
 import { IBusinessUser } from "../lib/api";
 
-interface CompanyCardProps {
+interface CompanyItemProps {
   company: IBusinessUser;
 }
 
-const CompanyItem = ({ company }: CompanyCardProps) => {
+const CompanyItem = ({ company }: CompanyItemProps) => {
   const router = useRouter();
 
   const handleViewClick = () => {

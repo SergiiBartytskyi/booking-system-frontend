@@ -15,18 +15,22 @@ export type AppointmentFieldValues = {
 
 export interface AppointmentFormProps {
   businessId: string;
+  businessName: string;
 }
 
-const AppointmentForm = ({ businessId }: AppointmentFormProps) => {
+const AppointmentForm = ({
+  businessId,
+  businessName,
+}: AppointmentFormProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: ({ dateTime }: AppointmentFieldValues) =>
-      addAppointment({ businessId, dateTime }),
+      addAppointment({ businessId, businessName, dateTime }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["appointments"] });
-      router.replace("/profile");
+      router.replace("/appointments");
     },
   });
 

@@ -21,6 +21,17 @@ export interface IBusinessUser {
   role: Role.BUSINESS;
 }
 
+export interface IAppointment {
+  _id: string;
+  clientId: string;
+  businessId: string;
+  businessName: string;
+  dateTime: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export enum Role {
   CLIENT = "client",
   BUSINESS = "business",
@@ -56,13 +67,33 @@ export const getBusinessUser = async (id: string) => {
   return res.data.data;
 };
 
+export const getAppointments = async () => {
+  const res = await api.get(`/appointments/me`);
+  return res.data.data;
+};
+
+export const getAppointmentById = async (id: string) => {
+  const res = await api.get(`/appointments/${id}`);
+  return res.data.data;
+};
+
 export const addAppointment = async ({
   businessId,
+  businessName,
   dateTime,
 }: {
   businessId: string;
+  businessName: string;
   dateTime: string;
 }) => {
-  const res = await api.post(`/appointments/${businessId}`, { dateTime });
+  const res = await api.post(`/appointments/${businessId}`, {
+    businessName,
+    dateTime,
+  });
+  return res.data.data;
+};
+
+export const deleteAppointment = async (appointmentId: string) => {
+  const res = await api.delete(`/appointments/${appointmentId}`);
   return res.data.data;
 };

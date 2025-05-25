@@ -32,7 +32,7 @@ const RegistrationForm = () => {
       queryClient.invalidateQueries({
         queryKey: ["currentUser"],
       });
-      router.replace("/profile");
+      router.replace("/appointments");
     },
   });
 

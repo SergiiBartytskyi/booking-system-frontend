@@ -26,7 +26,7 @@ const LoginForm = () => {
     mutationFn: loginUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-      router.replace("/profile");
+      router.replace("/appointments");
     },
   });
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCurrentUser } from "@/app/lib/queries/useCurrentUser";
+import AppointmentList from "./appointmentsList";
 
 const Profile = () => {
   const { data: user, isLoading, isError } = useCurrentUser();
@@ -10,9 +11,12 @@ const Profile = () => {
 
   return (
     <div>
-      <h2>{user.data.name}</h2>
-      <p>{user.data.email}</p>
-      <p>{user.data.createdAt}</p>
+      <div>
+        <h2>{user.data.name}</h2>
+        <p>{user.data.email}</p>
+        <p>{user.data.createdAt}</p>
+      </div>
+      <AppointmentList />
     </div>
   );
 };
