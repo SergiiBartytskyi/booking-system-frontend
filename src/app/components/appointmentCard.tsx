@@ -10,6 +10,7 @@ import {
 import AppointmentForm from "./appointmentCreateForm";
 import clsx from "clsx";
 import AppointmentEditForm from "./appointmentEditForm";
+import { formatDateTime } from "../lib/utils/formatDateTime";
 
 interface AppointmentCardProps {
   id: string;
@@ -26,38 +27,14 @@ const AppointmentCard = ({ id }: AppointmentCardProps) => {
     gcTime: 5 * 60 * 1000,
   });
 
-  console.log("appointment :>> ", appointment);
-
   if (isLoading) return <p>Loading...</p>;
-  if (error || !appointment) return <p>Not found the company</p>;
-
+  if (error || !appointment) return <p>Not found the appointment</p>;
+  const date = formatDateTime(appointment.createdAt);
   return (
-    <div className="p-6  ">
-      <h2 className="text-xl font-bold mb-2">{appointment.businessName}</h2>
-      <p className="text-gray-500 mb-4">
-        Register: {new Date(appointment.createdAt).toLocaleDateString()}
-      </p>
-      {/* <p className="font-medium mb-4">
-        Meeting status:{" "}
-        <span
-          className={clsx(
-            "font-bold",
-            appointment.status === Status.SCHEDULED && "text-blue-700",
-            appointment.status === Status.CANCELLED && "text-red-700",
-            appointment.status === Status.COMPLETED && "text-green-700"
-          )}
-        >
-          {appointment.status}
-        </span>
-      </p> */}
-
+    <div className="p-6 flex flex-col gap-5">
+      <h2 className="text-2xl font-bold">{appointment.businessName}</h2>
+      <p className="text-gray-600">Register: {date}</p>
       <AppointmentEditForm appointmentId={appointment._id} />
-      <div className="flex gap-3">
-        {/* <Button variant="destructive" onClick={onDelete}>
-          Видалити
-        </Button>
-        <Button onClick={onSave}>Зберегти</Button> */}
-      </div>
     </div>
   );
 };

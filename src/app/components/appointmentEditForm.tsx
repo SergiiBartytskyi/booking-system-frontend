@@ -26,7 +26,6 @@ export interface AppointmentFormProps {
 
 const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
   const queryClient = useQueryClient();
-  // const router = useRouter();
   const { handleDelete } = useDeleteAppointment();
   const { handleEdit, isPending, isSuccess, error } = useEditAppointment();
 
@@ -39,14 +38,6 @@ const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
   const initialStatus = appointment
     ? (appointment.status as Status)
     : Status.SCHEDULED;
-
-  // const { mutate, isPending, error } = useMutation({
-  //   mutationFn: editAppointment,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["appointments"] });
-  //     router.replace("/appointments");
-  //   },
-  // });
 
   const handleSubmit = (values: AppointmentFieldValues) => {
     handleEdit({ appointmentId, ...values });
@@ -79,17 +70,20 @@ const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
 
         {error && <p className="text-red-500">{(error as Error).message}</p>}
 
-        <Button type="submit" disabled={isPending}>
-          Booking
-        </Button>
+        <div className="flex gap-5 justify-between items-center">
+          <Button type="submit" variant="secondary" disabled={isPending}>
+            Booking
+          </Button>
 
-        <Button
-          type="button"
-          onClick={() => handleDelete(appointmentId)}
-          disabled={isPending}
-        >
-          Delete
-        </Button>
+          <Button
+            type="button"
+            variant="danger"
+            onClick={() => handleDelete(appointmentId)}
+            disabled={isPending}
+          >
+            Delete
+          </Button>
+        </div>
       </Form>
     </Formik>
   );

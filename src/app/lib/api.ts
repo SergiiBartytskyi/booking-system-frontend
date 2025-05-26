@@ -43,6 +43,7 @@ export enum Status {
   COMPLETED = "completed",
 }
 
+// Auth
 export const registerUser = async (userData: RegistrationFieldValues) =>
   await api.post("/auth/signup", userData);
 
@@ -57,6 +58,7 @@ export const refreshUser = async () => {
 
 export const logout = async () => await api.post("/auth/logout");
 
+// Users
 export const getBusinessUsers = async () => {
   const res = await api.get("/users/business");
   return res.data.data;
@@ -67,6 +69,25 @@ export const getBusinessUser = async (id: string) => {
   return res.data.data;
 };
 
+export const editCurrentUser = async ({
+  id,
+  name,
+  role,
+}: {
+  id: string;
+  name: string;
+  role: Role;
+}) => {
+  const res = await api.put(`/users/${id}`, { name, role });
+  return res.data.data;
+};
+
+export const deleteUser = async (id: string) => {
+  const res = await api.delete(`/users/${id}`);
+  return res.data.data;
+};
+
+// Appointment
 export const getAppointments = async () => {
   const res = await api.get(`/appointments/me`);
   return res.data.data;

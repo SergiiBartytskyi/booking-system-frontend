@@ -17,13 +17,13 @@ const CompanyItem = ({ company }: CompanyItemProps) => {
   };
 
   return (
-    <div className="p-4 border rounded shadow hover:shadow-md transition">
+    <li className="p-4 border rounded shadow hover:shadow-md transition flex flex-col w-100 h-40 justify-between">
       <h2 className="text-lg font-bold">{company.name}</h2>
       <p className="text-sm text-gray-600">{company.email}</p>
       <Button onClick={handleViewClick} className="mt-3">
         Go to
       </Button>
-    </div>
+    </li>
   );
 };
 

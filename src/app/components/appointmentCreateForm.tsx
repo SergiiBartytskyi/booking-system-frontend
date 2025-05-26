@@ -53,7 +53,7 @@ const AppointmentCreateForm = ({
         {error && <p className="text-red-500">{(error as Error).message}</p>}
 
         <Button type="submit" disabled={isPending}>
-          Booking
+          Register
         </Button>
       </Form>
     </Formik>

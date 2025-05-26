@@ -20,16 +20,13 @@ const CompanyCard = ({ id }: { id: string }) => {
   if (error || !company) return <p>Not found the company</p>;
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">{company.name}</h1>
-      <p className="text-gray-600 mb-2">{company.email}</p>
-      <p className="text-gray-500">
+    <div className="p-6 flex flex-col gap-5">
+      <h2 className="text-2xl font-bold">{company.name}</h2>
+      <p className="text-gray-600">{company.email}</p>
+      <p className="text-gray-600">
         Register: {new Date(company.createdAt).toLocaleDateString()}
       </p>
-
-      <div className="mt-6">
-        <AppointmentCreateForm businessId={id} businessName={company.name} />
-      </div>
+      <AppointmentCreateForm businessId={id} businessName={company.name} />
     </div>
   );
 };

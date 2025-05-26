@@ -16,11 +16,11 @@ const CompaniesList = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <ul className="flex flex-wrap gap-5">
       {companies.map((company: IBusinessUser) => (
         <CompanyItem key={company._id} company={company} />
       ))}
-    </div>
+    </ul>
   );
 };
 

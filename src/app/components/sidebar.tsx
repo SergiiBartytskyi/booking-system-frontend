@@ -4,25 +4,18 @@ import React from "react";
 import Image from "next/image";
 import SidebarItem from "./sidebarItem";
 import { usePathname, useRouter } from "next/navigation";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { logout } from "../lib/api";
+
+import { useLogoutUser } from "../lib/mutations/useLogoutUser";
 
 export interface SidebarProps {}
 
 export default function Sidebar({}: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const queryClient = useQueryClient();
-
-  const { mutate } = useMutation({
-    mutationFn: logout,
-    onSuccess: () => {
-      queryClient.clear();
-    },
-  });
+  const { handleLogout } = useLogoutUser();
 
   const handleExitClick = () => {
-    mutate();
+    handleLogout();
     router.push("/");
   };
 
