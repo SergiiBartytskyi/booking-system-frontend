@@ -44,7 +44,7 @@ const AppointmentCreateForm = ({
           <InputField
             required
             name="dateTime"
-            label="Choose a date and time to register"
+            label="Choose a date and time to appointment"
             type="datetime-local"
             id="dateTime"
           />

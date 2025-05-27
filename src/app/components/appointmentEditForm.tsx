@@ -2,18 +2,15 @@
 
 import React from "react";
 import { Form, Formik } from "formik";
-import {
-  addAppointment,
-  editAppointment,
-  IAppointment,
-  Status,
-} from "../lib/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { IApiResponse, IAppointment, Role, Status } from "../lib/api";
+import { useQueryClient } from "@tanstack/react-query";
 import InputField from "./inputField";
 import Button from "./button";
-import { useRouter } from "next/navigation";
 import { useDeleteAppointment } from "../lib/mutations/useDeleteAppointment";
 import { useEditAppointment } from "../lib/mutations/useEditAppointment";
+import clsx from "clsx";
+import { formatDateTime } from "../lib/utils/formatDateTime";
+import { useRouter } from "next/navigation";
 
 export type AppointmentFieldValues = {
   status: Status;
@@ -26,8 +23,11 @@ export interface AppointmentFormProps {
 
 const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { handleDelete } = useDeleteAppointment();
-  const { handleEdit, isPending, isSuccess, error } = useEditAppointment();
+  const { handleEdit, isPending, error } = useEditAppointment();
+  const response = queryClient.getQueryData(["currentUser"]) as IApiResponse;
+  const userRole = response.data.role;
 
   const appointment = queryClient.getQueryData<IAppointment>([
     "appointments",
@@ -42,7 +42,9 @@ const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
   const handleSubmit = (values: AppointmentFieldValues) => {
     handleEdit({ appointmentId, ...values });
   };
-
+  const handleBackClick = () => {
+    router.back();
+  };
   const statusOptions = Object.values(Status) as Status[];
 
   return (
@@ -51,37 +53,81 @@ const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
       onSubmit={handleSubmit}
     >
       <Form>
-        <div className="flex gap-6 mb-5">
-          <InputField
-            required
-            name="dateTime"
-            label="Choose date & time"
-            type="datetime-local"
-          />
+        <div
+          className={
+            userRole === Role.CLIENT
+              ? "flex gap-6 mb-5"
+              : "flex flex-col gap-6 mb-5"
+          }
+        >
+          {userRole === Role.CLIENT ? (
+            <InputField
+              required
+              name="dateTime"
+              label="Choose date & time"
+              type="datetime-local"
+            />
+          ) : (
+            <p>
+              The meeting is scheduled for
+              <span className="font-bold ml-5">
+                {formatDateTime(initialDateTime)}
+              </span>
+            </p>
+          )}
 
-          <InputField required label="Status" name="status" as="select">
-            {statusOptions.map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-          </InputField>
+          {userRole === Role.CLIENT ? (
+            <InputField required label="Status" name="status" as="select">
+              {statusOptions.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
+            </InputField>
+          ) : (
+            <p className="text-sm text-gray-600 block">
+              Status:{" "}
+              <span
+                className={clsx(
+                  "font-bold",
+                  initialStatus === Status.SCHEDULED && "text-blue-700",
+                  initialStatus === Status.CANCELLED && "text-red-700",
+                  initialStatus === Status.COMPLETED && "text-green-700"
+                )}
+              >
+                {initialStatus}
+              </span>
+            </p>
+          )}
         </div>
 
         {error && <p className="text-red-500">{(error as Error).message}</p>}
 
         <div className="flex gap-5 justify-between items-center">
-          <Button type="submit" variant="secondary" disabled={isPending}>
-            Booking
-          </Button>
+          {userRole === Role.CLIENT && (
+            <Button type="submit" variant="primary" disabled={isPending}>
+              Edit
+            </Button>
+          )}
+
+          {userRole === Role.BUSINESS && (
+            <Button
+              type="button"
+              variant="danger"
+              onClick={() => handleDelete(appointmentId)}
+              disabled={isPending}
+            >
+              Delete
+            </Button>
+          )}
 
           <Button
             type="button"
-            variant="danger"
-            onClick={() => handleDelete(appointmentId)}
+            variant="secondary"
+            onClick={handleBackClick}
             disabled={isPending}
           >
-            Delete
+            Cancel
           </Button>
         </div>
       </Form>

@@ -7,13 +7,21 @@ export const api = axios.create({
   withCredentials: true,
 });
 
-export interface IUser {
+interface IUser {
   _id: string;
   name: string;
   email: string;
-  role: Role.CLIENT;
+  role: Role;
   createdAt: string;
+  updatedAt: string;
 }
+
+export interface IApiResponse {
+  data: IUser;
+  message: string;
+  status: number;
+}
+
 export interface IBusinessUser {
   _id: string;
   name: string;
@@ -24,6 +32,7 @@ export interface IBusinessUser {
 export interface IAppointment {
   _id: string;
   clientId: string;
+  clientName: string;
   businessId: string;
   businessName: string;
   dateTime: string;

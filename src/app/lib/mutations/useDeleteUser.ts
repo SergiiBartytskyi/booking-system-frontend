@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteAppointment, deleteUser } from "../api";
+import { deleteUser } from "../api";
 import { useRouter } from "next/navigation";
 import { clearSession } from "../utils/clearSession";
 

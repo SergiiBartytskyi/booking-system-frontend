@@ -12,9 +12,9 @@ export interface HeaderProps {}
 
 const Header = ({}: HeaderProps) => {
   const { data: user } = useCurrentUser();
-  const { handleEdit, isPending } = useEditUser();
+  // const { handleEdit, isPending } = useEditUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleClick = () => {
     setIsModalOpen(true);
