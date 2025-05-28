@@ -9,4 +9,5 @@ export const useAppointment = (id: string) =>
     queryFn: () => getAppointmentById(id),
     staleTime: 10 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
+    retry: false,
   });

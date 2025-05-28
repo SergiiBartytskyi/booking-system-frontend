@@ -6,6 +6,7 @@ import AppointmentItem from "./appointmentItem";
 
 const AppointmentList = () => {
   const { data: appointments, isLoading, error } = useAppointments();
+
   if (isLoading) return <p>Loading...</p>;
 
   if (error) return <p>Error: {(error as Error).message}</p>;

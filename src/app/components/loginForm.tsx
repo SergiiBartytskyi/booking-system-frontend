@@ -2,11 +2,9 @@
 
 import React from "react";
 import { Form, Formik } from "formik";
-import { loginUser } from "../lib/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import InputField from "./inputField";
 import Button from "./button";
-import { useRouter } from "next/navigation";
+import { useLoginUser } from "../lib/mutations/useLoginUser";
 
 export type LoginFieldValues = {
   email: string;
@@ -19,27 +17,17 @@ const initialValues: LoginFieldValues = {
 };
 
 const LoginForm = () => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
-  const { mutate, isPending, error } = useMutation({
-    mutationFn: loginUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-      router.replace("/appointments");
-    },
-  });
+  const { handleLogin, isPending, error } = useLoginUser();
 
   const handleSubmit = async (values: LoginFieldValues) => {
-    mutate({
+    handleLogin({
       ...values,
     });
   };
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form>
-        <p>Login user</p>
-        <div className="flex gap-6">
+        <div className="flex gap-6 mb-5">
           <InputField
             required
             placeholder="email@mail.com"

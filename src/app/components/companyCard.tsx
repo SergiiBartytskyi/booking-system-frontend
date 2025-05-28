@@ -1,20 +1,10 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { getBusinessUser } from "@/app/lib/api";
 import AppointmentCreateForm from "./appointmentCreateForm";
+import { useBusinessUser } from "../lib/queries/useBusinessUser";
 
 const CompanyCard = ({ id }: { id: string }) => {
-  const {
-    data: company,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["companies", id],
-    queryFn: () => getBusinessUser(id),
-    staleTime: 1 * 60 * 1000,
-    gcTime: 5 * 60 * 1000,
-  });
+  const { data: company, isLoading, error } = useBusinessUser(id);
 
   if (isLoading) return <p>Loading...</p>;
   if (error || !company) return <p>Not found the company</p>;

@@ -1,12 +1,11 @@
 "use client";
 
-import React, { use } from "react";
+import React from "react";
 import { Form, Formik } from "formik";
-import { registerUser, Role } from "../lib/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Role } from "../lib/api";
 import InputField from "./inputField";
 import Button from "./button";
-import { useRouter } from "next/navigation";
+import { useRegisterUser } from "../lib/mutations/useRegisterUser";
 
 export type RegistrationFieldValues = {
   email: string;
@@ -23,29 +22,17 @@ const initialValues: RegistrationFieldValues = {
 };
 
 const RegistrationForm = () => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: registerUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["currentUser"],
-      });
-      router.replace("/appointments");
-    },
-  });
+  const { handleSignup, isPending, error } = useRegisterUser();
 
   const handleSubmit = async (values: RegistrationFieldValues) => {
-    mutate({
+    handleSignup({
       ...values,
     });
   };
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form>
-        <p>Registration</p>
-        <div className="flex gap-6">
+        <div className="flex flex-col gap-6 mb-5 w-md">
           <InputField
             required
             placeholder="email@mail.com"
@@ -66,7 +53,7 @@ const RegistrationForm = () => {
             required
             placeholder="name"
             name="name"
-            label="name"
+            label="Name"
             type="text"
             id="name"
           />
@@ -84,6 +71,9 @@ const RegistrationForm = () => {
             ))}
           </InputField>
         </div>
+
+        {error && <p className="text-red-500">{(error as Error).message}</p>}
+
         <Button type="submit" disabled={isPending}>
           Register a new user
         </Button>

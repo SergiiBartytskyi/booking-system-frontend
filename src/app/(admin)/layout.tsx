@@ -8,13 +8,15 @@ export interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <main>
+    <>
       <Header />
-      <div className="flex">
-        <Sidebar />
-        <div className="ml-60 flex flex-col gap-5 p-5">{children}</div>
-      </div>
-    </main>
+      <main>
+        <div className="flex">
+          <Sidebar />
+          <div className="ml-60 flex flex-col gap-5 p-5 mt-20">{children}</div>
+        </div>
+      </main>
+    </>
   );
 };
 

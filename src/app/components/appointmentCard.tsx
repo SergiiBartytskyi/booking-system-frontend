@@ -4,22 +4,15 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAppointmentById, IApiResponse, Role } from "@/app/lib/api";
 import AppointmentEditForm from "./appointmentEditForm";
 import { formatDateTime } from "../lib/utils/formatDateTime";
+import { useAppointment } from "../lib/queries/useAppointment";
 
 interface AppointmentCardProps {
   id: string;
 }
 const AppointmentCard = ({ id }: AppointmentCardProps) => {
   const queryClient = useQueryClient();
-  const {
-    data: appointment,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["appointments", id],
-    queryFn: () => getAppointmentById(id),
-    staleTime: 1 * 60 * 1000,
-    gcTime: 5 * 60 * 1000,
-  });
+
+  const { data: appointment, isLoading, error } = useAppointment(id);
 
   const response = queryClient.getQueryData(["currentUser"]) as IApiResponse;
   const userRole = response.data.role;
@@ -29,10 +22,13 @@ const AppointmentCard = ({ id }: AppointmentCardProps) => {
   const date = formatDateTime(appointment.createdAt);
   return (
     <div className="p-6 flex flex-col gap-5">
-      <h2 className="text-2xl font-bold">
-        {userRole === Role.CLIENT
-          ? appointment.businessName
-          : appointment.clientName}
+      <h2>
+        {userRole === Role.CLIENT ? "Company" : "Client"}:{" "}
+        <span className="text-2xl font-bold">
+          {userRole === Role.CLIENT
+            ? appointment.businessName
+            : appointment.clientName}
+        </span>
       </h2>
       <p className="text-gray-600">Register: {date}</p>
       <AppointmentEditForm appointmentId={appointment._id} />

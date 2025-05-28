@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import InputField from "./inputField";
 import Button from "./button";
 import { useRouter } from "next/navigation";
+import { useCreateAppointment } from "../lib/mutations/useCreateAppointment";
 
 export type AppointmentFieldValues = {
   businessId?: string;
@@ -22,19 +23,10 @@ const AppointmentCreateForm = ({
   businessId,
   businessName,
 }: AppointmentFormProps) => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
-  const { mutate, isPending, error } = useMutation({
-    mutationFn: addAppointment,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["appointments"] });
-      router.replace("/appointments");
-    },
-  });
+  const { handleCreate, isPending, error } = useCreateAppointment();
 
   const handleSubmit = (values: AppointmentFieldValues) => {
-    mutate({ ...values, businessId, businessName });
+    handleCreate({ ...values, businessId, businessName });
   };
 
   return (

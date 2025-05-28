@@ -9,12 +9,16 @@ interface PageProps {}
 const Page = async ({}: PageProps) => {
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ["companies"],
-    queryFn: getBusinessUsers,
-    staleTime: 1 * 60 * 1000,
-    gcTime: 5 * 60 * 1000,
-  });
+  try {
+    await queryClient.prefetchQuery({
+      queryKey: ["companies"],
+      queryFn: getBusinessUsers,
+      staleTime: 1 * 60 * 1000,
+      gcTime: 5 * 60 * 1000,
+    });
+  } catch (error) {
+    throw error;
+  }
 
   const dehydratedState = dehydrate(queryClient);
 

@@ -1,27 +1,23 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteAppointment } from "../api";
+import { deleteAppointment, IAppointment } from "../api";
+import { useRouter } from "next/navigation";
 
 export const useDeleteAppointment = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const deleteAppointmentMutation = useMutation({
     mutationFn: deleteAppointment,
 
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["appointments"] });
-    },
-
     onSuccess: (_, appointmentId) => {
-      const appointments = queryClient.getQueriesData({
-        queryKey: ["appointments"],
+      queryClient.setQueryData<IAppointment[]>(["appointments"], (oldData) => {
+        if (!oldData) return [];
+        return oldData.filter((a) => a._id !== appointmentId);
       });
 
-      if (appointments) {
-        queryClient.setQueryData(["appointments"], (oldData: any) => {
-          if (!oldData) return [];
-          return oldData.filter((a: any) => a.id !== appointmentId);
-        });
-      }
+      queryClient.invalidateQueries({ queryKey: ["appointments"] });
+
+      router.push("/appointments");
     },
   });
 

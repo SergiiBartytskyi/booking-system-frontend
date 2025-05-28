@@ -27,10 +27,13 @@ const AppointmentItem = ({ appointment }: AppointmentItemProps) => {
 
   return (
     <div className="p-4 border rounded shadow hover:shadow-md transition w-100">
-      <h2 className="text-lg font-bold">
-        {userRole === Role.CLIENT
-          ? appointment.businessName
-          : appointment.clientName}
+      <h2>
+        {userRole === Role.CLIENT ? "Company" : "Client"}:{" "}
+        <span className="text-lg font-bold">
+          {userRole === Role.CLIENT
+            ? appointment.businessName
+            : appointment.clientName}
+        </span>
       </h2>
       <p className="text-sm text-gray-600">Date: {date}</p>
       <p className="text-sm text-gray-600">

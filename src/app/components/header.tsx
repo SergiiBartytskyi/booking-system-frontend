@@ -12,20 +12,18 @@ export interface HeaderProps {}
 
 const Header = ({}: HeaderProps) => {
   const { data: user } = useCurrentUser();
-  // const { handleEdit, isPending } = useEditUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const router = useRouter();
 
   const handleClick = () => {
     setIsModalOpen(true);
   };
 
   return (
-    <header className="flex items-center gap-5 py-6	px-10 border-b border-gray-300 h-20">
+    <header className="flex items-center gap-5 py-6	px-10 border-b border-gray-300 h-20 fixed top-0 left-0 w-full z-100 bg-blue-200">
       <h1 className="flex-1 text-3xl font-semibold text-gray-900">
         Booking system
       </h1>
-      <div className="w-px self-stretch bg-gray-300" />
+      <div className="w-px self-stretch bg-gray-600" />
       <div className="flex gap-3 items-center">
         <User size={44} />
         <div>

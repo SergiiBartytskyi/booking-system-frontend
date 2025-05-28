@@ -4,9 +4,7 @@ import getQueryClient from "@/app/lib/utils/getQueryClient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import React from "react";
 
-interface PageProps {}
-
-const Page = async ({}: PageProps) => {
+const Page = async () => {
   const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
