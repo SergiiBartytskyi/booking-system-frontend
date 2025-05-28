@@ -10,7 +10,7 @@ import { useLogoutUser } from "../lib/mutations/useLogoutUser";
 export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { handleLogout } = useLogoutUser();
+  const { handleLogout, isLogoutPending } = useLogoutUser();
 
   const handleExitClick = () => {
     handleLogout();
@@ -41,6 +41,7 @@ export default function Sidebar() {
         <button
           className="flex items-center gap-2 p-6 mt-auto mx-auto"
           onClick={handleExitClick}
+          disabled={isLogoutPending}
         >
           <Image
             width={18}

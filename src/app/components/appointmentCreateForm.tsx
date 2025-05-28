@@ -20,7 +20,7 @@ const AppointmentCreateForm = ({
   businessId,
   businessName,
 }: AppointmentFormProps) => {
-  const { handleCreate, isPending, error } = useCreateAppointment();
+  const { handleCreate, isPending } = useCreateAppointment();
 
   const handleSubmit = (values: AppointmentFieldValues) => {
     handleCreate({ ...values, businessId, businessName });
@@ -38,8 +38,6 @@ const AppointmentCreateForm = ({
             id="dateTime"
           />
         </div>
-
-        {error && <p className="text-red-500">{(error as Error).message}</p>}
 
         <Button type="submit" disabled={isPending}>
           Register

@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { loginUser } from "../api";
+import { notify } from "../utils/notify";
+import { handleAxiosError } from "../utils/handleAxiosError";
 
 export const useLoginUser = () => {
   const queryClient = useQueryClient();
@@ -9,14 +11,18 @@ export const useLoginUser = () => {
   const useLoginUserMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: () => {
+      notify({
+        message: "Successful login!",
+        type: "success",
+      });
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       router.replace("/appointments");
     },
+    onError: handleAxiosError,
   });
 
   return {
     handleLogin: useLoginUserMutation.mutate,
     isPending: useLoginUserMutation.isPending,
-    error: useLoginUserMutation.error,
   };
 };

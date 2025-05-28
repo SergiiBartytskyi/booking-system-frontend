@@ -24,8 +24,8 @@ export interface AppointmentFormProps {
 const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { handleDelete } = useDeleteAppointment();
-  const { handleEdit, isPending, error } = useEditAppointment();
+  const { handleDelete, isDeletePending } = useDeleteAppointment();
+  const { handleEdit, isEditAppointmentPending } = useEditAppointment();
   const response = queryClient.getQueryData(["currentUser"]) as IApiResponse;
   const userRole = response.data.role;
 
@@ -101,11 +101,13 @@ const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
           )}
         </div>
 
-        {error && <p className="text-red-500">{(error as Error).message}</p>}
-
         <div className="flex gap-5 justify-between items-center">
           {userRole === Role.CLIENT && (
-            <Button type="submit" variant="primary" disabled={isPending}>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isEditAppointmentPending}
+            >
               Edit
             </Button>
           )}
@@ -115,18 +117,13 @@ const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
               type="button"
               variant="danger"
               onClick={() => handleDelete(appointmentId)}
-              disabled={isPending}
+              disabled={isDeletePending}
             >
               Delete
             </Button>
           )}
 
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={handleBackClick}
-            disabled={isPending}
-          >
+          <Button type="button" variant="secondary" onClick={handleBackClick}>
             Cancel
           </Button>
         </div>

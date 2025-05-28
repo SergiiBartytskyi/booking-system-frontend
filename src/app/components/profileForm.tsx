@@ -19,8 +19,8 @@ export interface ProfileFormProps {
 }
 const ProfileForm = ({ onSubmit }: ProfileFormProps) => {
   const { data: currentUser } = useCurrentUser();
-  const { handleEdit, isPending } = useEditUser();
-  const { handleDelete } = useDeleteUser();
+  const { handleEdit, isEditUserPending } = useEditUser();
+  const { handleDelete, isDeleteUserPending } = useDeleteUser();
 
   const initialName = currentUser ? currentUser.data.name : "";
   const initialRole = currentUser
@@ -62,8 +62,9 @@ const ProfileForm = ({ onSubmit }: ProfileFormProps) => {
             </InputField>
           </div>
         </div>
+
         <div className="flex gap-5 justify-between items-center">
-          <Button type="submit" disabled={isPending}>
+          <Button type="submit" disabled={isEditUserPending}>
             Edit user
           </Button>
 
@@ -71,7 +72,7 @@ const ProfileForm = ({ onSubmit }: ProfileFormProps) => {
             type="button"
             variant="danger"
             onClick={() => handleDelete(currentUser.data._id)}
-            disabled={isPending}
+            disabled={isDeleteUserPending}
           >
             Delete user
           </Button>

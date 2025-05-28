@@ -1,10 +1,19 @@
 "use client";
 
 import React from "react";
-import { Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import InputField from "./inputField";
 import Button from "./button";
 import { useLoginUser } from "../lib/mutations/useLoginUser";
+import * as Yup from "yup";
+
+const SigninSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string()
+    .min(6, "Password is too short - should be 6 chars minimum.")
+    .max(50, "Password is too long.")
+    .required("Required"),
+});
 
 export type LoginFieldValues = {
   email: string;
@@ -17,7 +26,7 @@ const initialValues: LoginFieldValues = {
 };
 
 const LoginForm = () => {
-  const { handleLogin, isPending, error } = useLoginUser();
+  const { handleLogin, isPending } = useLoginUser();
 
   const handleSubmit = async (values: LoginFieldValues) => {
     handleLogin({
@@ -25,28 +34,45 @@ const LoginForm = () => {
     });
   };
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={SigninSchema}
+    >
       <Form>
         <div className="flex gap-6 mb-5">
-          <InputField
-            required
-            placeholder="email@mail.com"
-            name="email"
-            label="Email"
-            type="email"
-            id="email"
-          />
-          <InputField
-            required
-            placeholder="password"
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-          />
-        </div>
+          <div>
+            <InputField
+              required
+              placeholder="email@mail.com"
+              name="email"
+              label="Email"
+              type="email"
+              id="email"
+            />
+            <ErrorMessage
+              className="text-red-500"
+              name="email"
+              component="span"
+            />
+          </div>
 
-        {error && <p className="text-red-500">{(error as Error).message}</p>}
+          <div>
+            <InputField
+              required
+              placeholder="password"
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+            />
+            <ErrorMessage
+              className="text-red-500"
+              name="password"
+              component="span"
+            />
+          </div>
+        </div>
 
         <Button type="submit" disabled={isPending}>
           Log in

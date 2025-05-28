@@ -2,6 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteUser } from "../api";
 import { useRouter } from "next/navigation";
 import { clearSession } from "../utils/clearSession";
+import { notify } from "../utils/notify";
+import { handleAxiosError } from "../utils/handleAxiosError";
 
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();
@@ -11,18 +13,22 @@ export const useDeleteUser = () => {
     mutationFn: deleteUser,
 
     onSuccess: () => {
+      notify({
+        message: "User deletion successful!",
+        type: "success",
+      });
       queryClient.clear();
 
       clearSession();
 
       router.push("/auth/signin");
     },
+
+    onError: handleAxiosError,
   });
 
   return {
     handleDelete: deleteUserMutation.mutate,
-    isPending: deleteUserMutation.isPending,
-    isSuccess: deleteUserMutation.isSuccess,
-    error: deleteUserMutation.error,
+    isDeleteUserPending: deleteUserMutation.isPending,
   };
 };

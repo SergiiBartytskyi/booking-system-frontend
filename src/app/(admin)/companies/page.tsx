@@ -22,6 +22,7 @@ const Page = async () => {
 
   return (
     <HydrationBoundary state={dehydratedState}>
+      <h2 className="font-bold">Business clients</h2>
       <CompaniesList />
     </HydrationBoundary>
   );

@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editAppointment, IAppointment } from "../api";
 import { useRouter } from "next/navigation";
+import { notify } from "../utils/notify";
+import { handleAxiosError } from "../utils/handleAxiosError";
 
 export const useEditAppointment = () => {
   const queryClient = useQueryClient();
@@ -14,6 +16,11 @@ export const useEditAppointment = () => {
     },
 
     onSuccess: (_, data) => {
+      notify({
+        message: "Appointment successfully edited!",
+        type: "success",
+      });
+
       const appointments = queryClient.getQueriesData({
         queryKey: ["appointments"],
       });
@@ -32,12 +39,12 @@ export const useEditAppointment = () => {
 
       router.replace("/appointments");
     },
+
+    onError: handleAxiosError,
   });
 
   return {
     handleEdit: useEditAppointmentMutation.mutate,
-    isPending: useEditAppointmentMutation.isPending,
-    isSuccess: useEditAppointmentMutation.isSuccess,
-    error: useEditAppointmentMutation.error,
+    isEditAppointmentPending: useEditAppointmentMutation.isPending,
   };
 };

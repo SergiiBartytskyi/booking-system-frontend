@@ -9,7 +9,6 @@ import EditUserFormModal from "./editUserFormModal";
 const Header = () => {
   const { data: user } = useCurrentUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const handleClick = () => {
     setIsModalOpen(true);
   };
