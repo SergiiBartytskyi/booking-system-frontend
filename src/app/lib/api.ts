@@ -3,7 +3,7 @@ import { RegistrationFieldValues } from "../components/registrationForm";
 import { LoginFieldValues } from "../components/loginForm";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   withCredentials: true,
 });
 
