@@ -29,6 +29,8 @@ const RegistrationForm = () => {
       ...values,
     });
   };
+
+  const roleOptions = Object.values(Role) as Role[];
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form>
@@ -64,7 +66,7 @@ const RegistrationForm = () => {
             name="role"
             as="select"
           >
-            {(Object.values(Role) as Role[]).map((role) => (
+            {roleOptions.map((role) => (
               <option key={role} value={role}>
                 {role}
               </option>

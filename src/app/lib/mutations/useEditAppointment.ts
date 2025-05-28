@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editAppointment } from "../api";
+import { editAppointment, IAppointment } from "../api";
 import { useRouter } from "next/navigation";
 
 export const useEditAppointment = () => {
@@ -13,16 +13,21 @@ export const useEditAppointment = () => {
       queryClient.invalidateQueries({ queryKey: ["appointments"] });
     },
 
-    onSuccess: (_, appointmentId) => {
+    onSuccess: (_, data) => {
       const appointments = queryClient.getQueriesData({
         queryKey: ["appointments"],
       });
 
       if (appointments) {
-        queryClient.setQueryData(["appointments"], (oldData: any) => {
-          if (!oldData) return [];
-          return oldData.filter((a: any) => a.id !== appointmentId);
-        });
+        queryClient.setQueryData<IAppointment[]>(
+          ["appointments"],
+          (oldData) => {
+            if (!oldData) return [];
+            return oldData.map((a) =>
+              a._id === data.appointmentId ? { ...a, ...data } : a
+            );
+          }
+        );
       }
 
       router.replace("/appointments");

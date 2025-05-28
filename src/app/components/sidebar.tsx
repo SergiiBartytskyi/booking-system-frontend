@@ -7,9 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { useLogoutUser } from "../lib/mutations/useLogoutUser";
 
-export interface SidebarProps {}
-
-export default function Sidebar({}: SidebarProps) {
+export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const { handleLogout } = useLogoutUser();

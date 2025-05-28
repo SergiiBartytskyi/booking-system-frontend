@@ -2,11 +2,8 @@
 
 import React from "react";
 import { Form, Formik } from "formik";
-import { addAppointment } from "../lib/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import InputField from "./inputField";
 import Button from "./button";
-import { useRouter } from "next/navigation";
 import { useCreateAppointment } from "../lib/mutations/useCreateAppointment";
 
 export type AppointmentFieldValues = {

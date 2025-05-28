@@ -17,7 +17,7 @@ export const useDeleteAppointment = () => {
 
       queryClient.invalidateQueries({ queryKey: ["appointments"] });
 
-      router.push("/appointments");
+      router.replace("/appointments");
     },
   });
 

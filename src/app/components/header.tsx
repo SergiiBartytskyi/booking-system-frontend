@@ -1,16 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Pencil, User } from "lucide-react";
 import { useCurrentUser } from "../lib/queries/useCurrentUser";
 import Button from "./button";
-import { useEditUser } from "../lib/mutations/useEditUser";
 import EditUserFormModal from "./editUserFormModal";
 
-export interface HeaderProps {}
-
-const Header = ({}: HeaderProps) => {
+const Header = () => {
   const { data: user } = useCurrentUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAppointmentById, IApiResponse, Role } from "@/app/lib/api";
+import { useQueryClient } from "@tanstack/react-query";
+import { IApiResponse, Role } from "@/app/lib/api";
 import AppointmentEditForm from "./appointmentEditForm";
 import { formatDateTime } from "../lib/utils/formatDateTime";
 import { useAppointment } from "../lib/queries/useAppointment";

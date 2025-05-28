@@ -1,5 +1,5 @@
 import AppointmentList from "@/app/components/appointmentsList";
-import { getAppointments, refreshUser } from "@/app/lib/api";
+import { getAppointments } from "@/app/lib/api";
 import getQueryClient from "@/app/lib/utils/getQueryClient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import React from "react";

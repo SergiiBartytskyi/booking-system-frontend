@@ -2,9 +2,7 @@ import LoginForm from "@/app/components/loginForm";
 import Link from "next/link";
 import React from "react";
 
-interface PageProps {}
-
-const Page = ({}: PageProps) => {
+const Page = () => {
   return (
     <div className="py-6 px-10 flex flex-col gap-5">
       <p className="font-bold text-2xl">Login user</p>
@@ -12,7 +10,7 @@ const Page = ({}: PageProps) => {
 
       <div className="bg-amber-300 p-3 w-fit rounded flex flex-col gap-3">
         <p className="font-bold">
-          If you don't have an account, follow the link to sign up!
+          If you don&apos;t have an account, follow the link to sign up!
         </p>
         <Link
           href={"/auth/signup"}

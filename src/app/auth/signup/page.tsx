@@ -2,9 +2,7 @@ import RegistrationForm from "@/app/components/registrationForm";
 import Link from "next/link";
 import React from "react";
 
-interface PageProps {}
-
-const Page = ({}: PageProps) => {
+const Page = () => {
   return (
     <div className="py-6 px-10 flex flex-col gap-5">
       <p className="font-bold text-2xl">Registration</p>

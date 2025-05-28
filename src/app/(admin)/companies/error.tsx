@@ -3,7 +3,6 @@
 import React from "react";
 import Button from "@/app/components/button";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 export interface ErrorComponentProps {
   error: Error;
