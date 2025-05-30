@@ -57,7 +57,7 @@ export default function InputField({
             name={name}
             type={inputType}
             {...rest}
-            className="p-3 h-11 text-sm rounded border border-gray-300 shadow pr-10"
+            className="px-3 h-11 text-sm rounded border border-gray-300 shadow-sm w-full"
           />
           {isPasswordField && (
             <button

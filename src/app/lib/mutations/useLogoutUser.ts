@@ -12,13 +12,16 @@ export const useLogoutUser = () => {
   const logoutMutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
+      queryClient.clear();
+
+      clearSession();
+
       notify({
         message: "User logout successful!",
         type: "success",
       });
-      queryClient.clear();
-      clearSession();
-      router.push("/auth/signin");
+
+      router.replace("/auth/signin");
     },
 
     onError: handleAxiosError,

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteAppointment } from "../api";
+import { deleteAppointment, IAppointment } from "../api";
 import { useRouter } from "next/navigation";
 import { notify } from "../utils/notify";
 import { handleAxiosError } from "../utils/handleAxiosError";
@@ -11,13 +11,18 @@ export const useDeleteAppointment = () => {
   const deleteAppointmentMutation = useMutation({
     mutationFn: deleteAppointment,
 
-    onSuccess: () => {
+    onSuccess: (_, appointmentId) => {
+      queryClient.setQueryData<IAppointment[]>(["appointments"], (oldData) => {
+        if (!oldData) return [];
+        return oldData.filter((a) => a._id !== appointmentId);
+      });
+
+      queryClient.invalidateQueries({ queryKey: ["appointments"] });
+
       notify({
         message: "The appointment deleted successfully!",
         type: "success",
       });
-
-      queryClient.invalidateQueries({ queryKey: ["appointments"] });
 
       router.replace("/appointments");
     },

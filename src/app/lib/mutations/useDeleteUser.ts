@@ -13,15 +13,16 @@ export const useDeleteUser = () => {
     mutationFn: deleteUser,
 
     onSuccess: () => {
-      notify({
-        message: "User deletion successful!",
-        type: "success",
-      });
       queryClient.clear();
 
       clearSession();
 
-      router.push("/auth/signin");
+      notify({
+        message: "User deletion successful!",
+        type: "success",
+      });
+
+      router.replace("/auth/signin");
     },
 
     onError: handleAxiosError,

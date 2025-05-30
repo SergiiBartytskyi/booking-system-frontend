@@ -11,13 +11,15 @@ export const useRegisterUser = () => {
   const useLRegisterUserMutation = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["currentUser"],
+      });
+
       notify({
         message: "Successful registration!",
         type: "success",
       });
-      queryClient.invalidateQueries({
-        queryKey: ["currentUser"],
-      });
+
       router.replace("/appointments");
     },
     onError: handleAxiosError,

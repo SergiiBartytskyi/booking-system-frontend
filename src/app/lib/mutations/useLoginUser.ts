@@ -11,11 +11,13 @@ export const useLoginUser = () => {
   const useLoginUserMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+
       notify({
         message: "Successful login!",
         type: "success",
       });
-      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+
       router.replace("/appointments");
     },
     onError: handleAxiosError,
