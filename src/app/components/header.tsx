@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { Pencil, User } from "lucide-react";
-import { useCurrentUser } from "../lib/queries/useCurrentUser";
 import Button from "./button";
 import EditUserFormModal from "./editUserFormModal";
+import { useCurrentUser } from "../lib/queries";
 
 const Header = () => {
   const { data: user } = useCurrentUser();

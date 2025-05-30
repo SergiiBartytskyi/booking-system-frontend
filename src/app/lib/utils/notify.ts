@@ -1,7 +1,5 @@
 import { toast } from "react-toastify";
 
-// const customId = "custom-id-yes";
-
 interface NotifyType {
   message: string;
   type: "error" | "success" | "info";

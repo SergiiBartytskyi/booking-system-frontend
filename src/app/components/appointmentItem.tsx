@@ -50,7 +50,7 @@ const AppointmentItem = ({ appointment }: AppointmentItemProps) => {
         </span>
       </p>
       <Button onClick={handleViewClick} className="mt-3">
-        Edit
+        Go to
       </Button>
     </div>
   );

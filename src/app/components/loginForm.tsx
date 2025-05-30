@@ -4,8 +4,9 @@ import React from "react";
 import { ErrorMessage, Form, Formik } from "formik";
 import InputField from "./inputField";
 import Button from "./button";
-import { useLoginUser } from "../lib/mutations/useLoginUser";
 import * as Yup from "yup";
+import { BarLoader } from "react-spinners";
+import { useLoginUser } from "../lib/mutations";
 
 const SigninSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -75,7 +76,14 @@ const LoginForm = () => {
         </div>
 
         <Button type="submit" disabled={isPending}>
-          Log in
+          {!isPending ? (
+            "Log in"
+          ) : (
+            <div className="flex items-center gap-1">
+              <p>Logging in </p>
+              <BarLoader speedMultiplier={1} color="white" width={40} />
+            </div>
+          )}
         </Button>
       </Form>
     </Formik>

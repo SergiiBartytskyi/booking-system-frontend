@@ -5,6 +5,6 @@ export const handleAxiosError = (error: unknown) => {
   const axiosError = error as AxiosError<{ data?: { message?: string } }>;
 
   const message =
-    axiosError.response?.data?.data?.message || "Щось пішло не так ... ";
+    axiosError.response?.data?.data?.message || "Something went wrong...";
   notify({ message, type: "error" });
 };

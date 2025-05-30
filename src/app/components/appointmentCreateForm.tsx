@@ -4,7 +4,9 @@ import React from "react";
 import { Form, Formik } from "formik";
 import InputField from "./inputField";
 import Button from "./button";
-import { useCreateAppointment } from "../lib/mutations/useCreateAppointment";
+
+import { BarLoader } from "react-spinners";
+import { useCreateAppointment } from "../lib/mutations";
 
 export type AppointmentFieldValues = {
   businessId?: string;
@@ -40,7 +42,14 @@ const AppointmentCreateForm = ({
         </div>
 
         <Button type="submit" disabled={isPending}>
-          Register
+          {!isPending ? (
+            "Add booking"
+          ) : (
+            <div className="flex items-center gap-1">
+              <p>Booking </p>
+              <BarLoader speedMultiplier={1} color="white" width={40} />
+            </div>
+          )}
         </Button>
       </Form>
     </Formik>

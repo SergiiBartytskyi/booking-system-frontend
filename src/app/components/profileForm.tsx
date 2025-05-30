@@ -4,10 +4,10 @@ import React from "react";
 import { Form, Formik } from "formik";
 import Button from "@/app/components/button";
 import { Role } from "../lib/api";
-import { useCurrentUser } from "../lib/queries/useCurrentUser";
-import { useEditUser } from "../lib/mutations/useEditUser";
 import InputField from "./inputField";
-import { useDeleteUser } from "../lib/mutations/useDeleteUser";
+import { BarLoader } from "react-spinners";
+import { useCurrentUser } from "../lib/queries";
+import { useDeleteUser, useEditUser } from "../lib/mutations";
 
 export type ProfileFieldValues = {
   name: string;
@@ -65,7 +65,14 @@ const ProfileForm = ({ onSubmit }: ProfileFormProps) => {
 
         <div className="flex gap-5 justify-between items-center">
           <Button type="submit" disabled={isEditUserPending}>
-            Edit user
+            {!isEditUserPending ? (
+              "Edit user"
+            ) : (
+              <div className="flex items-center gap-1">
+                <p>Editing </p>
+                <BarLoader speedMultiplier={1} color="white" width={40} />
+              </div>
+            )}
           </Button>
 
           <Button
@@ -74,7 +81,14 @@ const ProfileForm = ({ onSubmit }: ProfileFormProps) => {
             onClick={() => handleDelete(currentUser.data._id)}
             disabled={isDeleteUserPending}
           >
-            Delete user
+            {!isDeleteUserPending ? (
+              "Delete user"
+            ) : (
+              <div className="flex items-center gap-1">
+                <p>Deleting </p>
+                <BarLoader speedMultiplier={1} color="white" width={40} />
+              </div>
+            )}
           </Button>
         </div>
       </Form>

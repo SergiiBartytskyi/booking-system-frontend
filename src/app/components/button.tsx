@@ -8,19 +8,21 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   variant?: ButtonVariant;
+  children?: React.ReactNode;
 }
 
 export default function Button({
   disabled,
   variant = "primary",
   className,
+  children,
   ...rest
 }: ButtonProps) {
   return (
     <button
       {...rest}
       className={clsx(
-        "py-2.5 px-5 text-base text-center font-medium rounded transition-colors duration-200",
+        "py-2.5 px-5 text-base text-center font-medium rounded transition-colors duration-200 cursor-pointer",
         {
           primary: "bg-gray-900 text-zinc-50",
           secondary: "bg-gray-300 text-gray-900",
@@ -34,9 +36,11 @@ export default function Button({
             outline: "hover:bg-gray-900 hover:text-white",
             danger: "hover:bg-red-700 active:bg-red-800",
           }[variant],
-        disabled && "opacity-50 cursor-not-allowed",
+        disabled && "opacity-50 cursor-not-allowed pointer-events-none",
         className
       )}
-    />
+    >
+      {children}
+    </button>
   );
 }

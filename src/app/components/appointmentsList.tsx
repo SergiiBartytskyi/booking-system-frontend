@@ -1,7 +1,7 @@
 "use client";
 
 import { IAppointment } from "../lib/api";
-import { useAppointments } from "../lib/queries/useAppointments";
+import { useAppointments } from "../lib/queries";
 import AppointmentItem from "./appointmentItem";
 
 const AppointmentList = () => {

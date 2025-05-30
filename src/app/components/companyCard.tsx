@@ -1,7 +1,7 @@
 "use client";
 
+import { useBusinessUser } from "../lib/queries";
 import AppointmentCreateForm from "./appointmentCreateForm";
-import { useBusinessUser } from "../lib/queries/useBusinessUser";
 
 const CompanyCard = ({ id }: { id: string }) => {
   const { data: company, isLoading, error } = useBusinessUser(id);

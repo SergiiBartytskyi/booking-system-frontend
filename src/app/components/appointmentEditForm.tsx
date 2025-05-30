@@ -6,11 +6,11 @@ import { IApiResponse, IAppointment, Role, Status } from "../lib/api";
 import { useQueryClient } from "@tanstack/react-query";
 import InputField from "./inputField";
 import Button from "./button";
-import { useDeleteAppointment } from "../lib/mutations/useDeleteAppointment";
-import { useEditAppointment } from "../lib/mutations/useEditAppointment";
 import clsx from "clsx";
 import { formatDateTime } from "../lib/utils/formatDateTime";
+import { useDeleteAppointment, useEditAppointment } from "../lib/mutations";
 import { useRouter } from "next/navigation";
+import { BarLoader } from "react-spinners";
 
 export type AppointmentFieldValues = {
   status: Status;
@@ -108,7 +108,14 @@ const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
               variant="primary"
               disabled={isEditAppointmentPending}
             >
-              Edit
+              {!isEditAppointmentPending ? (
+                "Save"
+              ) : (
+                <div className="flex items-center gap-1">
+                  <p>Saving </p>
+                  <BarLoader speedMultiplier={1} color="white" width={40} />
+                </div>
+              )}
             </Button>
           )}
 
@@ -119,7 +126,14 @@ const AppointmentEditForm = ({ appointmentId }: AppointmentFormProps) => {
               onClick={() => handleDelete(appointmentId)}
               disabled={isDeletePending}
             >
-              Delete
+              {!isDeletePending ? (
+                "Delete"
+              ) : (
+                <div className="flex items-center gap-1">
+                  <p>Deleting </p>
+                  <BarLoader speedMultiplier={1} color="white" width={40} />
+                </div>
+              )}
             </Button>
           )}
 

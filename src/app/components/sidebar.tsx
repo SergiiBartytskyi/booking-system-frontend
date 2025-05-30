@@ -4,8 +4,9 @@ import React from "react";
 import Image from "next/image";
 import SidebarItem from "./sidebarItem";
 import { usePathname, useRouter } from "next/navigation";
-
-import { useLogoutUser } from "../lib/mutations/useLogoutUser";
+import Button from "./button";
+import { BarLoader } from "react-spinners";
+import { useLogoutUser } from "../lib/mutations";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -38,19 +39,30 @@ export default function Sidebar() {
             Appointments
           </SidebarItem>
         </ul>
-        <button
-          className="flex items-center gap-2 p-6 mt-auto mx-auto"
+
+        <Button
+          type="submit"
           onClick={handleExitClick}
           disabled={isLogoutPending}
+          className="flex items-center gap-2 p-6 mt-auto mx-auto cursor-pointer "
         >
-          <Image
-            width={18}
-            height={18}
-            src="/icons/arrow-left-on-rectangle.svg"
-            alt="exit icon"
-          />
-          <span className="font-medium text-white">Exit</span>
-        </button>
+          {!isLogoutPending ? (
+            <div className="flex items-center gap-1">
+              <Image
+                width={18}
+                height={18}
+                src="/icons/arrow-left-on-rectangle.svg"
+                alt="exit icon"
+              />
+              <span className="font-medium text-white"> Exit</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1">
+              <p className="font-medium text-white">Exiting </p>
+              <BarLoader speedMultiplier={1} color="white" width={40} />
+            </div>
+          )}
+        </Button>
       </div>
     </aside>
   );

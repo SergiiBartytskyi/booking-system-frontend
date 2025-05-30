@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Field } from "formik";
+import { Eye, EyeOff } from "lucide-react";
 
 export interface InputFieldProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -16,13 +17,24 @@ export default function InputField({
   name,
   id,
   as = "input",
+  type = "text",
   children,
   ...rest
 }: InputFieldProps) {
+  const [showPassword, setShowPassword] = useState(false);
+  const inputId = id || name;
+
+  const isPasswordField = type === "password";
+  const inputType = isPasswordField
+    ? showPassword
+      ? "text"
+      : "password"
+    : type;
+
   return (
     <div className="flex flex-col">
       {label && (
-        <label htmlFor={id || name} className="mb-2 text-base color-gray-900">
+        <label htmlFor={inputId} className="mb-2 text-base color-gray-900">
           {label}
         </label>
       )}
@@ -30,7 +42,7 @@ export default function InputField({
       {as === "select" ? (
         <Field
           as="select"
-          id={id || name}
+          id={inputId}
           name={name}
           {...rest}
           className="p-3 h-11 text-sm rounded border border-gray-300 shadow"
@@ -38,13 +50,26 @@ export default function InputField({
           {children}
         </Field>
       ) : (
-        <Field
-          as="input"
-          id={id || name}
-          name={name}
-          {...rest}
-          className="p-3 h-11 text-sm rounded border border-gray-300 shadow"
-        />
+        <div className="relative">
+          <Field
+            as="input"
+            id={inputId}
+            name={name}
+            type={inputType}
+            {...rest}
+            className="p-3 h-11 text-sm rounded border border-gray-300 shadow pr-10"
+          />
+          {isPasswordField && (
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-[50%] transform -translate-y-1/2 text-sm text-gray-600"
+              tabIndex={-1}
+            >
+              {showPassword ? <Eye /> : <EyeOff />}
+            </button>
+          )}
+        </div>
       )}
     </div>
   );

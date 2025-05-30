@@ -4,8 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { IApiResponse, Role } from "@/app/lib/api";
 import AppointmentEditForm from "./appointmentEditForm";
 import { formatDateTime } from "../lib/utils/formatDateTime";
-import { useAppointment } from "../lib/queries/useAppointment";
-
+import { useAppointment } from "../lib/queries";
 interface AppointmentCardProps {
   id: string;
 }
@@ -20,6 +19,7 @@ const AppointmentCard = ({ id }: AppointmentCardProps) => {
   if (isLoading) return <p>Loading...</p>;
   if (error || !appointment) return <p>Not found the appointment</p>;
   const date = formatDateTime(appointment.createdAt);
+
   return (
     <div className="p-6 flex flex-col gap-5">
       <h2>

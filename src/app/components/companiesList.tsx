@@ -2,9 +2,9 @@
 
 import { IBusinessUser } from "@/app/lib/api";
 import CompanyItem from "./companyItem";
-import { useBusinessUsers } from "../lib/queries/useBusinessUsers";
 import { AxiosError } from "axios";
 import Link from "next/link";
+import { useBusinessUsers } from "../lib/queries";
 
 const CompaniesList = () => {
   const { data: companies, isLoading, isError, error } = useBusinessUsers();

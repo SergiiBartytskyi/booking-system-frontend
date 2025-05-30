@@ -5,8 +5,9 @@ import { ErrorMessage, Form, Formik } from "formik";
 import { Role } from "../lib/api";
 import InputField from "./inputField";
 import Button from "./button";
-import { useRegisterUser } from "../lib/mutations/useRegisterUser";
 import * as Yup from "yup";
+import { BarLoader } from "react-spinners";
+import { useRegisterUser } from "../lib/mutations";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -118,7 +119,14 @@ const RegistrationForm = () => {
         </div>
 
         <Button type="submit" disabled={isPending}>
-          Register a new user
+          {!isPending ? (
+            "Register a new user"
+          ) : (
+            <div className="flex items-center gap-1">
+              <p>Registering </p>
+              <BarLoader speedMultiplier={1} color="white" width={40} />
+            </div>
+          )}
         </Button>
       </Form>
     </Formik>

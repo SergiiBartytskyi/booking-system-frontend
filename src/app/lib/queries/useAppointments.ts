@@ -7,7 +7,7 @@ export const useAppointments = () =>
   useQuery({
     queryKey: ["appointments"],
     queryFn: getAppointments,
-    staleTime: 1 * 60 * 10000,
-    gcTime: 5 * 60 * 1000,
+    staleTime: 10 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
     retry: false,
   });
